@@ -17,11 +17,17 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#-------------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
 # Edit: March 25,2016 by Sami Snunu, OSMID: SamiSnunu:
 #               - Tested to conform with the latest (Python 2.7.6) release
-#				- Added acknowledge the file has been created.
-
+#               - Added acknowledge the file has been created.
+#               - Removed unused libraries
+#   Example running the command as follows:
+#   python "C:\Scripts\osm2change-python2.py" "C:\OSM Data\test.osm"
+#
+#   The output will be, 'C:\OSM Data\test.osc' file, ready to be imported into OSM Server
+#   using 'upload-python2.py' script.
+#
 
 """
 Convert .osm files to osmChange 0.3 format.
@@ -32,13 +38,14 @@ __version__ = "$Revision: 21 $"
 import os
 import sys
 import traceback
-import httplib
 import xml.etree.cElementTree as ElementTree
+
 
 def osmsort(tree, order):
     list = tree[0:len(tree)]
     list.sort(lambda x, y: order.index(x.tag) - order.index(y.tag))
     tree[0:len(tree)] = list
+
 
 try:
     if len(sys.argv) != 2:
@@ -58,7 +65,6 @@ try:
     tree = ElementTree.parse(filename)
     root = tree.getroot()
 
-
     if root.tag != "osm" or root.attrib.get("version") != "0.6":
         sys.stderr.write("File %s is not a v0.6 osm file!\n" % (filename,))
         sys.exit(1)
@@ -68,9 +74,9 @@ try:
     output_tree = ElementTree.ElementTree(output_root)
 
     operation = {}
-    for opname in [ "create", "modify", "delete" ]:
+    for opname in ["create", "modify", "delete"]:
         operation[opname] = ElementTree.SubElement(output_root,
-                opname, output_attr)
+                                                   opname, output_attr)
 
     for element in root:
         if "id" in element.attrib and int(element.attrib["id"]) < 0:
@@ -83,13 +89,13 @@ try:
 
     # Does this account for all cases?  Also, is it needed?
     # (cases like relations containing relations... is that allowed?)
-    #osmsort(operation["create"], [ "node", "way", "relation" ])
-    #osmsort(operation["delete"], [ "relation", "way", "node" ])
+    # osmsort(operation["create"], [ "node", "way", "relation" ])
+    # osmsort(operation["delete"], [ "relation", "way", "node" ])
 
     output_tree.write(filename_base + ".osc", "utf-8")
     print ("File: " + filename_base + ".osc created.")
 
 except Exception, err:
     sys.stderr.write(repr(err) + "\n")
-    traceback.print_exc(file = sys.stderr)
+    traceback.print_exc(file=sys.stderr)
     sys.exit(1)
