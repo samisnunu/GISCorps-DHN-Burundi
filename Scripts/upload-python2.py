@@ -17,18 +17,19 @@
 # along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
-#-------------------------------------------------------------------------------
+# -------------------------------------------------------------------------------
 # Edit: March 25,2016 by Sami Snunu, OSMID: SamiSnunu:
 #               - Tested to conform with the latest (Python 2.7.6) release
-#				- Removed unnecessary encoding commands.
-#				- Added the OSM DEV server URL
+#               - Removed unnecessary encoding commands.
+#               - Added the OSM DEV server URL
 # 				- Let the process create a new changeset, always
-#				- Ensure to close the (.diffxml) file
+#               - Ensure to close the (.diffxml) file
 #               - Modified several entries for meaningfull error descriptions.
 # Edit: April 1,2016 by Sami Snunu, OSMID: SamiSnunu:
 #               - In case of change type "modify", retrieve the version of the element first.
+#      Example running the command as follows:
+#      python "C:\Scripts\upload-python2.py" -u your_userName -p your_Password -c yes -m "DHN Project" -n "C:\Data\test.osc"
 #
-
 
 """
 Uploads complete osmChange 0.3 files.  Use your login (not email) as username.
