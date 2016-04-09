@@ -1,5 +1,5 @@
 # source: https://github.com/Vanuan/csv2osm
-#---------------------------------------------------------------------------------
+#
 # Edit April 2, 2016 Sami Snunu, OSM ID: Sami Snunu
 #           - Added proper header  to xml
 #           - Syntax of tags with tab instead of spaces.
